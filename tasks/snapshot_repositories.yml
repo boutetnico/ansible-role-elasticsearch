@@ -1,7 +1,7 @@
 ---
 - name: Install snapshot repositories
   uri:
-    url: "http://localhost:{{ es_http_port }}/_snapshot/{{ item | basename }}"
+    url: "http://localhost:{{ es_http_port }}/_snapshot/{{ item | basename | replace('.j2', '') }}"
     method: PUT
     status_code: 200
     user: "{{ es_api_basic_auth_username }}"
