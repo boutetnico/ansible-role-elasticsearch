@@ -1,0 +1,40 @@
+---
+es_dependencies:
+  - apt-transport-https
+  - gnupg
+
+es_package_state: present
+
+es_user: elasticsearch
+es_group: elasticsearch
+
+es_network_host: 0.0.0.0
+es_http_port: 9200
+
+es_path_data: /var/lib/elasticsearch
+es_path_logs: /var/log/elasticsearch
+
+es_config: {}
+# discovery.type: single-node
+
+es_api_basic_auth_username: elastic
+es_api_basic_auth_password: changeme
+
+es_log_level: info
+es_log4j2_template: log4j2.properties.j2
+
+es_jvm_heap_size: 1g
+
+es_indices: []
+
+es_plugins: []
+
+es_keystore_entries: []
+
+es_users: []
+
+es_roles: []
+
+es_templates_fileglob: ""
+
+es_snapshot_repositories_fileglob: ""

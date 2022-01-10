@@ -1,0 +1,13 @@
+---
+- name: Install snapshot repositories
+  uri:
+    url: "http://localhost:{{ es_http_port }}/_snapshot/{{ item | basename }}"
+    method: PUT
+    status_code: 200
+    user: "{{ es_api_basic_auth_username }}"
+    password: "{{ es_api_basic_auth_password }}"
+    force_basic_auth: true
+    body_format: json
+    body: "{{ lookup('template', item) }}"
+  loop: "{{ lookup('fileglob', es_snapshot_repositories_fileglob, wantlist=True) }}"
+  run_once: true

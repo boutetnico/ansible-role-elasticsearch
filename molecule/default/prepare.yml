@@ -1,0 +1,10 @@
+---
+- name: Prepare
+  hosts: all
+
+  tasks:
+    - name: install OpenJDK JRE
+      apt:
+        name: default-jre-headless
+        state: present
+        update_cache: true

@@ -1,0 +1,59 @@
+---
+- name: List existing users
+  shell: cat /etc/elasticsearch/users | awk -F':' '{print $1}'
+  register: _es_current_users
+  changed_when: false
+
+- name: List users to remove
+  set_fact:
+    _es_users_to_remove: "{{ _es_current_users.stdout_lines | difference (es_users.file.keys() | list) }}"
+
+- name: Remove Users
+  command: >
+    /usr/share/elasticsearch/bin/elasticsearch-users userdel {{ item }}
+  loop: "{{ _es_users_to_remove | d([]) }}"
+
+- name: List users to add
+  set_fact:
+    _es_users_to_add: "{{ es_users.file.keys() | list | difference (_es_current_users.stdout_lines) }}"
+
+- name: Add Users
+  command: >
+    /usr/share/elasticsearch/bin/elasticsearch-users useradd {{ item }} -p {{ es_users.file[item].password }}
+  loop: "{{ _es_users_to_add | d([]) }}"
+
+# Set passwords for all users declared - Required as the useradd will not change existing user passwords
+- name: Set User Passwords
+  command: >
+    /usr/share/elasticsearch/bin/elasticsearch-users passwd {{ item }} -p {{ es_users.file[item].password }}
+  loop: "{{ es_users.file.keys() | list }}"
+  when: es_users.file[item].password is defined
+  changed_when: false
+
+- name: Add users with password hashs
+  lineinfile:
+    line: "{{ item }}:{{ es_users.file[item].password_hash }}"
+    path: "/etc/elasticsearch/users"
+    regexp: "^{{ item }}"
+    state: present
+  with_items: "{{ es_users.file.keys() | list }}"
+  when: es_users.file[item].password_hash is defined
+
+- name: Copy roles.yml
+  template:
+    src: security/roles.yml.j2
+    dest: /etc/elasticsearch/roles.yml
+    owner: root
+    group: "{{ es_group }}"
+    mode: 0660
+    force: true
+  when: es_roles.file is defined
+
+- name: Copy User Roles
+  template:
+    src: security/users_roles.j2
+    dest: /etc/elasticsearch/users_roles
+    owner: root
+    group: "{{ es_group }}"
+    mode: 0660
+    force: true

@@ -1,0 +1,69 @@
+---
+- name: Install dependencies
+  apt:
+    name: "{{ es_dependencies }}"
+    state: present
+    update_cache: true
+
+- name: Add Elastic key
+  apt_key:
+    state: present
+    url: "{{ es_signing_key }}"
+
+- name: Manage ElasticSearch APT repository
+  apt_repository:
+    repo: "{{ es_repository }}"
+    state: present
+
+- name: Install ElasticSearch
+  apt:
+    name: "{{ es_package_name }}"
+    state: "{{ es_package_state }}"
+  notify: restart ElasticSearch
+
+- name: Ensure ElasticSearch data directory exists
+  file:
+    group: "{{ es_group }}"
+    mode: 0755
+    owner: "{{ es_user }}"
+    path: "{{ es_path_data }}"
+    state: directory
+
+- name: Ensure ElasticSearch log directory exists
+  file:
+    group: root
+    mode: 0755
+    owner: "{{ es_user }}"
+    path: "{{ es_path_logs }}"
+    state: directory
+
+- name: Ensure ElasticSearch configuration files exist
+  template:
+    dest: "/etc/elasticsearch/{{ item | basename | replace('.j2', '') }}"
+    group: root
+    mode: 0644
+    owner: root
+    src: "{{ item }}"
+  loop:
+    - elasticsearch.yml.j2
+    - "{{ es_log4j2_template }}"
+    - jvm.options.j2
+  notify: restart ElasticSearch
+
+- name: Ensure ElasticSearch is started and starts at boot
+  service:
+    enabled: true
+    name: elasticsearch
+    state: started
+
+- include_tasks: indices.yml
+
+- include_tasks: plugins.yml
+
+- include_tasks: keystore.yml
+
+- include_tasks: users.yml
+
+- include_tasks: templates.yml
+
+- include_tasks: snapshot_repositories.yml

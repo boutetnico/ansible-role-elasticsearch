@@ -1,0 +1,7 @@
+{% for user, details in es_users.file.items() %}
+{%   if "roles" in details %}
+{%     for role in details["roles"] %}
+{{ role }}:{{ user }}
+{%     endfor %}
+{%   endif %}
+{% endfor %}

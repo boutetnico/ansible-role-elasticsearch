@@ -1,0 +1,31 @@
+---
+- name: Ensure templates directory exists
+  file:
+    group: "{{ es_group }}"
+    mode: 0750
+    owner: root
+    path: "/etc/elasticsearch/templates"
+    state: directory
+
+- name: Copy templates to elasticsearch templates directory
+  copy:
+    dest: "/etc/elasticsearch/templates"
+    group: "{{ es_group }}"
+    mode: 0660
+    owner: root
+    src: "{{ item }}"
+  register: _es_load_templates
+  loop: "{{ lookup('fileglob', es_templates_fileglob, wantlist=True) }}"
+
+- name: Install templates
+  uri:
+    body_format: json
+    body: "{{ lookup('file', item) }}"
+    force_basic_auth: yes
+    method: PUT
+    password: "{{ es_api_basic_auth_password | d(omit)}}"
+    status_code: 200
+    url: "http://localhost:{{ es_http_port }}/_template/{{item | filename }}"
+    user: "{{ es_api_basic_auth_username | d(omit)}}"
+  when: _es_load_templates is changed
+  loop: "{{ lookup('fileglob', es_templates_fileglob, wantlist=True) }}"
