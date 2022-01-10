@@ -56,7 +56,10 @@
     name: elasticsearch
     state: started
 
-- include_tasks: indices.yml
+- name: Wait for ElasticSearch to be running
+  wait_for:
+    host: localhost
+    port: "{{ es_http_port }}"
 
 - include_tasks: plugins.yml
 
@@ -64,6 +67,8 @@
 
 - include_tasks: users.yml
 
+- include_tasks: snapshot_repositories.yml
+
 - include_tasks: templates.yml
 
-- include_tasks: snapshot_repositories.yml
+- include_tasks: indices.yml

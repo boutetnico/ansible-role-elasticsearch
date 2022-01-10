@@ -20,6 +20,7 @@
 - name: Add Users
   command: >
     /usr/share/elasticsearch/bin/elasticsearch-users useradd {{ item }} -p {{ es_users.file[item].password }}
+  when: es_users.file[item].password is defined
   loop: "{{ _es_users_to_add | d([]) }}"
 
 # Set passwords for all users declared - Required as the useradd will not change existing user passwords

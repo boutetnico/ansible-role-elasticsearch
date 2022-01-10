@@ -25,7 +25,7 @@
     method: PUT
     password: "{{ es_api_basic_auth_password | d(omit)}}"
     status_code: 200
-    url: "http://localhost:{{ es_http_port }}/_template/{{item | filename }}"
+    url: "http://localhost:{{ es_http_port }}/_template/{{ item | basename }}"
     user: "{{ es_api_basic_auth_username | d(omit)}}"
   when: _es_load_templates is changed
   loop: "{{ lookup('fileglob', es_templates_fileglob, wantlist=True) }}"

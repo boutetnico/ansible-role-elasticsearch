@@ -1,6 +1,7 @@
 ---
 - name: Ensure plugins are installed
   elasticsearch_plugin:
+    force: true
     name: "{{ item.name }}"
     version: "{{ item.version | d(omit) }}"
   loop: "{{ es_plugins }}"
