@@ -19,6 +19,7 @@
   apt:
     name: "{{ es_package_name }}"
     state: "{{ es_package_state }}"
+  register: _es_apt_package
   notify: restart ElasticSearch
 
 - name: Ensure ElasticSearch data directory exists
@@ -50,6 +51,8 @@
     - jvm.options.j2
   notify: restart ElasticSearch
 
+- include_tasks: plugins.yml
+
 - name: Ensure ElasticSearch is started and starts at boot
   service:
     enabled: true
@@ -61,7 +64,6 @@
     host: localhost
     port: "{{ es_http_port }}"
 
-- include_tasks: plugins.yml
 
 - include_tasks: keystore.yml
 

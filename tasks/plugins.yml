@@ -1,4 +1,22 @@
 ---
+- name: Check if we need to reinstall plugins in case of ElasticSearch package update
+  set_fact:
+    es_plugins_reinstall: true
+  when: _es_apt_package is changed
+
+- name: List installed plugins
+  shell: "ls /usr/share/elasticsearch/plugins"
+  register: _es_installed_plugins
+  changed_when: false
+  ignore_errors: true
+
+- name: Removed installed plugins
+  elasticsearch_plugin:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ _es_installed_plugins.stdout_lines }}"
+  when: es_plugins_reinstall is defined
+
 - name: Ensure plugins are installed
   elasticsearch_plugin:
     force: true
