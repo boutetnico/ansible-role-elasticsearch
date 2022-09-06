@@ -1,12 +1,12 @@
 ---
 - name: List existing users
-  ansible.builtin.shell: cat /etc/elasticsearch/users | awk -F':' '{print $1}'
+  ansible.builtin.shell: set -o pipefail && cat /etc/elasticsearch/users | awk -F':' '{print $1}'
   register: _es_current_users
   changed_when: false
 
 - name: List users to remove
   ansible.builtin.set_fact:
-    _es_users_to_remove: "{{ _es_current_users.stdout_lines | difference (es_users.file.keys() | list) }}"
+    _es_users_to_remove: "{{ _es_current_users.stdout_lines | difference(es_users.file.keys() | list) }}"
 
 - name: Remove Users
   ansible.builtin.command: >
@@ -15,7 +15,7 @@
 
 - name: List users to add
   ansible.builtin.set_fact:
-    _es_users_to_add: "{{ es_users.file.keys() | list | difference (_es_current_users.stdout_lines) }}"
+    _es_users_to_add: "{{ es_users.file.keys() | list | difference(_es_current_users.stdout_lines) }}"
 
 - name: Add Users
   ansible.builtin.command: >

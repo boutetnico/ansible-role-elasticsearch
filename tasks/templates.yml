@@ -23,7 +23,7 @@
     body: "{{ lookup('file', item) }}"
     force_basic_auth: yes
     method: PUT
-    password: "{{ es_api_basic_auth_password | d(omit)}}"
+    password: "{{ es_api_basic_auth_password | d(omit) }}"
     status_code: 200
     url: "http://localhost:{{ es_http_port }}/_template/{{ item | basename | replace('.j2', '') }}"
     user: "{{ es_api_basic_auth_username | d(omit)}}"

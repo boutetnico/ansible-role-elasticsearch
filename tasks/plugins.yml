@@ -5,7 +5,7 @@
   when: _es_apt_package is changed
 
 - name: List installed plugins
-  ansible.builtin.shell: "ls /usr/share/elasticsearch/plugins"
+  ansible.builtin.commad: "ls /usr/share/elasticsearch/plugins"
   register: _es_installed_plugins
   changed_when: false
   ignore_errors: true
