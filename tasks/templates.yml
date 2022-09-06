@@ -1,6 +1,6 @@
 ---
 - name: Ensure templates directory exists
-  file:
+  ansible.builtin.file:
     group: "{{ es_group }}"
     mode: 0750
     owner: root
@@ -8,7 +8,7 @@
     state: directory
 
 - name: Copy templates to elasticsearch templates directory
-  copy:
+  ansible.builtin.copy:
     dest: "/etc/elasticsearch/templates"
     group: "{{ es_group }}"
     mode: 0660
@@ -18,7 +18,7 @@
   loop: "{{ lookup('fileglob', es_templates_fileglob, wantlist=True) }}"
 
 - name: Install templates
-  uri:
+  ansible.builtin.uri:
     body_format: json
     body: "{{ lookup('file', item) }}"
     force_basic_auth: yes

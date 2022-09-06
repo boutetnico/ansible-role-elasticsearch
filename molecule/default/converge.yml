@@ -3,4 +3,4 @@
   hosts: all
 
   roles:
-    - role: ansible-role-elasticsearch
+    - role: boutetnico.elasticsearch

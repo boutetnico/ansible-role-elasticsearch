@@ -3,8 +3,8 @@
   hosts: all
 
   tasks:
-    - name: install OpenJDK JRE
-      apt:
+    - name: Install OpenJDK JRE
+      ansible.builtin.apt:
         name: default-jre-headless
         state: present
         update_cache: true

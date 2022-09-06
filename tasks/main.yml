@@ -1,29 +1,29 @@
 ---
 - name: Install dependencies
-  apt:
+  ansible.builtin.apt:
     name: "{{ es_dependencies }}"
     state: present
     update_cache: true
 
 - name: Add Elastic key
-  apt_key:
+  ansible.builtin.apt_key:
     state: present
     url: "{{ es_signing_key }}"
 
 - name: Manage ElasticSearch APT repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ es_repository }}"
     state: present
 
 - name: Install ElasticSearch
-  apt:
+  ansible.builtin.apt:
     name: "{{ es_package_name }}"
     state: "{{ es_package_state }}"
   register: _es_apt_package
-  notify: restart ElasticSearch
+  notify: Restart ElasticSearch
 
 - name: Ensure ElasticSearch data directory exists
-  file:
+  ansible.builtin.file:
     group: "{{ es_group }}"
     mode: 0755
     owner: "{{ es_user }}"
@@ -31,7 +31,7 @@
     state: directory
 
 - name: Ensure ElasticSearch log directory exists
-  file:
+  ansible.builtin.file:
     group: root
     mode: 0755
     owner: "{{ es_user }}"
@@ -39,7 +39,7 @@
     state: directory
 
 - name: Ensure ElasticSearch configuration files exist
-  template:
+  ansible.builtin.template:
     dest: "/etc/elasticsearch/{{ item | basename | replace('.j2', '') }}"
     group: root
     mode: 0644
@@ -49,18 +49,18 @@
     - elasticsearch.yml.j2
     - "{{ es_log4j2_template }}"
     - jvm.options.j2
-  notify: restart ElasticSearch
+  notify: Restart ElasticSearch
 
 - include_tasks: plugins.yml
 
 - name: Ensure ElasticSearch is started and starts at boot
-  service:
+  ansible.builtin.service:
     enabled: true
     name: elasticsearch
     state: started
 
 - name: Wait for ElasticSearch to be running
-  wait_for:
+  ansible.builtin.wait_for:
     host: localhost
     port: "{{ es_http_port }}"
 
