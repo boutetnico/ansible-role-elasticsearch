@@ -37,7 +37,7 @@
     path: "/etc/elasticsearch/users"
     regexp: "^{{ item }}"
     state: present
-  with_items: "{{ es_users.file.keys() | list }}"
+  loop: "{{ es_users.file.keys() | list }}"
   when: es_users.file[item].password_hash is defined
 
 - name: Copy roles.yml
