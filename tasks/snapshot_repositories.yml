@@ -1,6 +1,6 @@
 ---
 - name: Install snapshot repositories
-  uri:
+  ansible.builtin.uri:
     url: "http://localhost:{{ es_http_port }}/_snapshot/{{ item | basename | replace('.j2', '') }}"
     method: PUT
     status_code: 200

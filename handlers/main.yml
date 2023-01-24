@@ -1,5 +1,5 @@
 ---
-- name: restart ElasticSearch
-  service:
+- name: Restart ElasticSearch
+  ansible.builtin.service:
     name: elasticsearch
     state: restarted

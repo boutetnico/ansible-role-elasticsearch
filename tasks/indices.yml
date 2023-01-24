@@ -1,6 +1,6 @@
 ---
 - name: Ensure indices exist
-  uri:
+  ansible.builtin.uri:
     url: "http://localhost:{{ es_http_port }}/{{ item }}"
     method: PUT
     status_code: [200, 400]  # 400 when index already exists
