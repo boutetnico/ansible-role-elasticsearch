@@ -11,6 +11,7 @@
 - name: Remove Users
   ansible.builtin.command: >
     /usr/share/elasticsearch/bin/elasticsearch-users userdel {{ item }}
+  changed_when: false
   loop: "{{ _es_users_to_remove | d([]) }}"
 
 - name: List users to add

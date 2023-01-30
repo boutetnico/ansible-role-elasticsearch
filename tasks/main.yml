@@ -51,7 +51,8 @@
     - jvm.options.j2
   notify: Restart ElasticSearch
 
-- include_tasks: plugins.yml
+- name: Include tasks related to plugins
+  ansible.builtin.include_tasks: plugins.yml
 
 - name: Ensure ElasticSearch is started and starts at boot
   ansible.builtin.service:
@@ -64,13 +65,17 @@
     host: localhost
     port: "{{ es_http_port }}"
 
+- name: Include tasks related to keystore
+  ansible.builtin.include_tasks: keystore.yml
 
-- include_tasks: keystore.yml
+- name: Include tasks related to users
+  ansible.builtin.include_tasks: users.yml
 
-- include_tasks: users.yml
+- name: Include tasks related to snapshot repositories
+  ansible.builtin.include_tasks: snapshot_repositories.yml
 
-- include_tasks: snapshot_repositories.yml
+- name: Include tasks related to templates
+  ansible.builtin.include_tasks: templates.yml
 
-- include_tasks: templates.yml
-
-- include_tasks: indices.yml
+- name: Include tasks related to indices
+  ansible.builtin.include_tasks: indices.yml
