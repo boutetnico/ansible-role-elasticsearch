@@ -18,7 +18,7 @@
   loop: "{{ lookup('fileglob', es_templates_fileglob, wantlist=True) }}"
 
 - name: Install templates
-  ansible.builtin.uri:
+  ansible.builtin.uri:  # noqa no-handler
     body_format: json
     body: "{{ lookup('file', item) }}"
     force_basic_auth: yes

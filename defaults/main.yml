@@ -31,9 +31,9 @@ es_plugins: []
 
 es_keystore_entries: []
 
-es_users: []
+es_users: {}
 
-es_roles: []
+es_roles: {}
 
 es_templates_fileglob: ""
 

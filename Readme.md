@@ -41,8 +41,8 @@ Role Variables
 | es_indices                        | true     | `[]`                            | list      | Indices to create.                     |
 | es_plugins                        | true     | `[]`                            | list      | Plugins to install.                    |
 | es_keystore_entries               | true     | `[]`                            | list      |                                        |
-| es_users                          | true     | `[]`                            | list      |                                        |
-| es_roles                          | true     | `[]`                            | list      |                                        |
+| es_users                          | true     | `{}`                            | dict      |                                        |
+| es_roles                          | true     | `{}`                            | dict      |                                        |
 | es_templates_fileglob             | true     | `""`                            | string    | Path to index templates to install.    |
 | es_snapshot_repositories_fileglob | true     | `""`                            | string    |                                        |
 

@@ -1,6 +1,6 @@
 ---
 - name: Check if we need to reinstall plugins in case of ElasticSearch package update
-  ansible.builtin.set_fact:
+  ansible.builtin.set_fact:  # noqa no-handler
     es_plugins_reinstall: true
   when: _es_apt_package is changed
 

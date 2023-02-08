@@ -4,3 +4,6 @@
 
   roles:
     - role: boutetnico.elasticsearch
+
+      es_config:
+        discovery.type: single-node
