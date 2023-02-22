@@ -21,6 +21,7 @@
 - name: Add Users
   ansible.builtin.command: >
     /usr/share/elasticsearch/bin/elasticsearch-users useradd {{ item }} -p {{ es_users[item].password }}
+  changed_when: false
   when: es_users[item].password is defined
   loop: "{{ _es_users_to_add | d([]) }}"
 
