@@ -119,3 +119,18 @@ def test_templates_exist(host, user, password, template):
         pytest.fail('Failed to reach ES API')
     data = json.loads(output.stdout)
     assert data[0]['name'] == template
+
+
+@pytest.mark.parametrize('user,password,repository', [
+  ('elastic', 'changeme', 'backup'),
+])
+def test_snapshot_repositories(host, user, password, repository):
+    command = (
+      f"curl -q -u {user}:{password} "
+      f"http://127.0.0.1:9200/_snapshot/{repository}"
+    )
+    output = host.run(command)
+    if output.exit_status != 0:
+        pytest.fail('Failed to reach ES API')
+    data = json.loads(output.stdout)
+    assert repository in data
