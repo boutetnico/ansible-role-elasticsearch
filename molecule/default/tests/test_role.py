@@ -61,3 +61,13 @@ def test_indices_exist(host, endpoint, user, password, indice):
     data = json.loads(output.stdout)
     assert data[0]['health'] == 'green'
     assert data[0]['status'] == 'open'
+
+
+@pytest.mark.parametrize('plugin', [
+  ('repository-s3'),
+])
+def test_plugins_exist(host, plugin):
+    output = host.run("/usr/share/elasticsearch/bin/elasticsearch-plugin list")
+    if output.exit_status != 0:
+      pytest.fail('Failed to list ES plugins')
+    assert plugin in output.stdout
