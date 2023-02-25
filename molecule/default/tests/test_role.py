@@ -104,3 +104,18 @@ def test_users(host, user, roles):
         pytest.fail('Failed to list ES users')
     assert user in output.stdout
     assert roles in output.stdout
+
+
+@pytest.mark.parametrize('user,password,template', [
+  ('elastic', 'changeme', 'all-indices'),
+])
+def test_templates_exist(host, user, password, template):
+    command = (
+      f"curl -q -u {user}:{password} "
+      f"http://127.0.0.1:9200/_cat/templates/{template}?format=json"
+    )
+    output = host.run(command)
+    if output.exit_status != 0:
+        pytest.fail('Failed to reach ES API')
+    data = json.loads(output.stdout)
+    assert data[0]['name'] == template
