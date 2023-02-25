@@ -27,6 +27,7 @@
           password_hash: $2a$10$1CiQXX6ai5ubrIpm47BF0eq2nLN4ZtXeLG4dwWXuinigP1osTswR6  # molecule-user-1
           roles:
             - superuser
+            - custom-role-1
         molecule-user-2:
           password: molecule-user-2
           roles:

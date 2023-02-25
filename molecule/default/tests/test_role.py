@@ -40,24 +40,32 @@ def test_service_is_running_and_enabled(host, name):
     assert service.is_running
 
 
-@pytest.mark.parametrize('endpoint,user,password', [
-  ('http://127.0.0.1:9200/_cluster/health', 'elastic', 'changeme'),
+@pytest.mark.parametrize('user,password', [
+  ('elastic', 'changeme'),
 ])
-def test_cluster_health(host, endpoint, user, password):
-    output = host.run(f"curl -q -u {user}:{password} {endpoint}")
+def test_cluster_health(host, user, password):
+    command = (
+      f"curl -q -u {user}:{password} "
+      f"http://127.0.0.1:9200/_cluster/health"
+    )
+    output = host.run(command)
     if output.exit_status != 0:
-      pytest.fail('Failed to reach ES API')
+        pytest.fail('Failed to reach ES API')
     data = json.loads(output.stdout)
     assert data['status'] == 'green'
 
 
-@pytest.mark.parametrize('endpoint,user,password,indice', [
-  ('http://127.0.0.1:9200/_cat/indices', 'elastic', 'changeme', 'test-molecule'),
+@pytest.mark.parametrize('user,password,indice', [
+  ('elastic', 'changeme', 'test-molecule'),
 ])
-def test_indices_exist(host, endpoint, user, password, indice):
-    output = host.run(f"curl -q -u {user}:{password} {endpoint}/{indice}?format=json")
+def test_indices_exist(host, user, password, indice):
+    command = (
+      f"curl -q -u {user}:{password} "
+      f"http://127.0.0.1:9200/_cat/indices/{indice}?format=json"
+    )
+    output = host.run(command)
     if output.exit_status != 0:
-      pytest.fail('Failed to reach ES API')
+        pytest.fail('Failed to reach ES API')
     data = json.loads(output.stdout)
     assert data[0]['health'] == 'green'
     assert data[0]['status'] == 'open'
@@ -69,16 +77,30 @@ def test_indices_exist(host, endpoint, user, password, indice):
 def test_plugins_exist(host, plugin):
     output = host.run("/usr/share/elasticsearch/bin/elasticsearch-plugin list")
     if output.exit_status != 0:
-      pytest.fail('Failed to list ES plugins')
+        pytest.fail('Failed to list ES plugins')
     assert plugin in output.stdout
 
 
-@pytest.mark.parametrize('plugin', [
+@pytest.mark.parametrize('entry', [
   ('s3.client.default.access_key'),
   ('s3.client.default.secret_key'),
 ])
-def test_keystore_entries(host, plugin):
-    output = host.run("/usr/share/elasticsearch/bin/elasticsearch-keystore list")
+def test_keystore_entries(host, entry):
+    command = "/usr/share/elasticsearch/bin/elasticsearch-keystore list"
+    output = host.run(command)
     if output.exit_status != 0:
-      pytest.fail('Failed to list ES keystore entries')
-    assert plugin in output.stdout
+        pytest.fail('Failed to list ES keystore entries')
+    assert entry in output.stdout
+
+
+@pytest.mark.parametrize('user,roles', [
+  ('molecule-user-1', 'superuser,custom-role-1'),
+  ('molecule-user-2', 'custom-role-1'),
+])
+def test_users(host, user, roles):
+    command = f"/usr/share/elasticsearch/bin/elasticsearch-users roles {user}"
+    output = host.run(command)
+    if output.exit_status != 0:
+        pytest.fail('Failed to list ES users')
+    assert user in output.stdout
+    assert roles in output.stdout
