@@ -4,7 +4,7 @@ import os
 
 import testinfra.utils.ansible_runner
 
-import requests
+import json
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
@@ -43,7 +43,7 @@ def test_service_is_running_and_enabled(host, name):
 @pytest.mark.parametrize('endpoint,user,password', [
   ('http://127.0.0.1:9200/_cluster/health', 'elastic', 'changeme'),
 ])
-def test_cluster_health(endpoint, user, password):
-    response = requests.get(endpoint, auth=(user, password))
-    data = response.json()
+def test_cluster_health(host, endpoint, user, password):
+    output = host.run(f"curl -u {user}:{password} {endpoint}")
+    data = json.loads(output.stdout)
     assert data['status'] == 'green'
