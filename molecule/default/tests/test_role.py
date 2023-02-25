@@ -71,3 +71,14 @@ def test_plugins_exist(host, plugin):
     if output.exit_status != 0:
       pytest.fail('Failed to list ES plugins')
     assert plugin in output.stdout
+
+
+@pytest.mark.parametrize('plugin', [
+  ('s3.client.default.access_key'),
+  ('s3.client.default.secret_key'),
+])
+def test_keystore_entries(host, plugin):
+    output = host.run("/usr/share/elasticsearch/bin/elasticsearch-keystore list")
+    if output.exit_status != 0:
+      pytest.fail('Failed to list ES keystore entries')
+    assert plugin in output.stdout
