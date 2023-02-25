@@ -44,6 +44,20 @@ def test_service_is_running_and_enabled(host, name):
   ('http://127.0.0.1:9200/_cluster/health', 'elastic', 'changeme'),
 ])
 def test_cluster_health(host, endpoint, user, password):
-    output = host.run(f"curl -u {user}:{password} {endpoint}")
+    output = host.run(f"curl -q -u {user}:{password} {endpoint}")
+    if output.exit_status != 0:
+      pytest.fail('Failed to reach ES API')
     data = json.loads(output.stdout)
     assert data['status'] == 'green'
+
+
+@pytest.mark.parametrize('endpoint,user,password,indice', [
+  ('http://127.0.0.1:9200/_cat/indices', 'elastic', 'changeme', 'test-molecule'),
+])
+def test_indices_exist(host, endpoint, user, password, indice):
+    output = host.run(f"curl -q -u {user}:{password} {endpoint}/{indice}?format=json")
+    if output.exit_status != 0:
+      pytest.fail('Failed to reach ES API')
+    data = json.loads(output.stdout)
+    assert data[0]['health'] == 'green'
+    assert data[0]['status'] == 'open'
