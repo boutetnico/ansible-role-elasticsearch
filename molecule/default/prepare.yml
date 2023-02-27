@@ -8,3 +8,9 @@
         name: default-jre-headless
         state: present
         update_cache: true
+
+    - name: Install curl (used in tests)
+      ansible.builtin.apt:
+        name: curl
+        state: present
+        update_cache: true

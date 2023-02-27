@@ -10,4 +10,3 @@
     body_format: json
     body: "{{ lookup('template', item) }}"
   loop: "{{ lookup('fileglob', es_snapshot_repositories_fileglob, wantlist=True) }}"
-  run_once: true

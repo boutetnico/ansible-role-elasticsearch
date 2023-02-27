@@ -7,3 +7,42 @@
 
       es_config:
         discovery.type: single-node
+        path.repo:
+          - /tmp
+
+      es_indices:
+        - test-molecule
+
+      es_plugins:
+        - name: repository-s3
+
+      es_keystore_entries:
+        - key: s3.client.default.access_key
+          value: FAKE_ACCESS_KEY
+        - key: s3.client.default.secret_key
+          value: FAKE_SECRET_KEY
+
+      es_users:
+        molecule-user-1:
+          password_hash: $2a$10$1CiQXX6ai5ubrIpm47BF0eq2nLN4ZtXeLG4dwWXuinigP1osTswR6  # molecule-user-1
+          roles:
+            - superuser
+            - custom-role-1
+        molecule-user-2:
+          password: molecule-user-2
+          roles:
+            - custom-role-1
+
+      es_roles:
+        custom-role-1:
+          cluster:
+            - all
+          indices:
+            - names:
+                - test-molecule
+              privileges:
+                - manage
+
+      es_templates_fileglob: molecule/default/templates/*
+
+      es_snapshot_repositories_fileglob: molecule/default/snapshot_repositories/*
