@@ -25,7 +25,7 @@
 - name: Ensure ElasticSearch data directory exists
   ansible.builtin.file:
     group: "{{ es_group }}"
-    mode: 0755
+    mode: "0755"
     owner: "{{ es_user }}"
     path: "{{ es_path_data }}"
     state: directory
@@ -33,7 +33,7 @@
 - name: Ensure ElasticSearch log directory exists
   ansible.builtin.file:
     group: root
-    mode: 0755
+    mode: "0755"
     owner: "{{ es_user }}"
     path: "{{ es_path_logs }}"
     state: directory
@@ -42,7 +42,7 @@
   ansible.builtin.template:
     dest: "/etc/elasticsearch/{{ item | basename | replace('.j2', '') }}"
     group: root
-    mode: 0644
+    mode: "0644"
     owner: root
     src: "{{ item }}"
   loop:

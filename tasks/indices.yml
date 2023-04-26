@@ -6,5 +6,5 @@
     status_code: [200, 400]  # 400 when index already exists
     user: "{{ es_api_basic_auth_username }}"
     password: "{{ es_api_basic_auth_password }}"
-    force_basic_auth: yes
+    force_basic_auth: true
   loop: "{{ es_indices }}"

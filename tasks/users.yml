@@ -48,7 +48,7 @@
     dest: /etc/elasticsearch/roles.yml
     owner: root
     group: "{{ es_group }}"
-    mode: 0660
+    mode: "0660"
     force: true
   when: es_roles is defined
 
@@ -58,5 +58,5 @@
     dest: /etc/elasticsearch/users_roles
     owner: root
     group: "{{ es_group }}"
-    mode: 0660
+    mode: "0660"
     force: true
