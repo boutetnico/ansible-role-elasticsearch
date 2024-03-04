@@ -35,6 +35,7 @@ es_users: {}
 
 es_roles: {}
 
-es_templates_fileglob: ""
+es_component_templates_fileglob: ""
+es_index_templates_fileglob: ""
 
 es_snapshot_repositories_fileglob: ""

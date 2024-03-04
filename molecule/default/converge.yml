@@ -43,6 +43,7 @@
               privileges:
                 - manage
 
-      es_templates_fileglob: molecule/default/templates/*
+      es_component_templates_fileglob: molecule/default/templates/components/*
+      es_index_templates_fileglob: molecule/default/templates/*
 
       es_snapshot_repositories_fileglob: molecule/default/snapshot_repositories/*

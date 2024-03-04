@@ -123,19 +123,39 @@ def test_users(host, user, roles):
 @pytest.mark.parametrize(
     "user,password,template",
     [
-        ("elastic", "changeme", "all-indices"),
+        ("elastic", "changeme", "common"),
     ],
 )
-def test_templates_exist(host, user, password, template):
+def test_component_templates_exist(host, user, password, template):
     command = (
         f"curl -q -u {user}:{password} "
-        f"http://127.0.0.1:9200/_cat/templates/{template}?format=json"
+        f"http://127.0.0.1:9200/_component_template/{template}"
     )
     output = host.run(command)
     if output.exit_status != 0:
         pytest.fail("Failed to reach ES API")
     data = json.loads(output.stdout)
-    assert data[0]["name"] == template
+    print(data)
+    assert data["component_templates"][0]["name"] == template
+
+
+@pytest.mark.parametrize(
+    "user,password,template",
+    [
+        ("elastic", "changeme", "test-molecule"),
+    ],
+)
+def test_composable_index_templates_exist(host, user, password, template):
+    command = (
+        f"curl -q -u {user}:{password} "
+        f"http://127.0.0.1:9200/_index_template/{template}"
+    )
+    output = host.run(command)
+    if output.exit_status != 0:
+        pytest.fail("Failed to reach ES API")
+    data = json.loads(output.stdout)
+    print(data)
+    assert data["index_templates"][0]["name"] == template
 
 
 @pytest.mark.parametrize(

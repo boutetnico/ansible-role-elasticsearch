@@ -22,29 +22,30 @@ Supported Platforms
 Role Variables
 --------------
 
-| Variable                          | Required | Default                         | Choices   | Comments                               |
-|-----------------------------------|----------|---------------------------------|-----------|----------------------------------------|
-| es_dependencies                   | true     | `[apt-transport-https, gnupg]`  | list      |                                        |
-| es_package_state                  | true     | `present`                       | string    | Use `latest` to upgrade ElasticSearch. |
-| es_user                           | true     | `elasticsearch`                 | string    |                                        |
-| es_group                          | true     | `elasticsearch`                 | string    |                                        |
-| es_network_host                   | true     | `0.0.0.0`                       | string    |                                        |
-| es_http_port                      | true     | `9200`                          | int       |                                        |
-| es_path_data                      | true     | `/var/lib/elasticsearch`        | string    |                                        |
-| es_path_logs                      | true     | `/var/log/elasticsearch`        | string    |                                        |
-| es_config                         | true     | `{}`                            | dict      |                                        |
-| es_api_basic_auth_username        | true     | `elastic`                       | string    |                                        |
-| es_api_basic_auth_password        | true     | `changeme`                      | string    |                                        |
-| es_log_level                      | true     | `info`                          | string    |                                        |
-| es_log4j2_template                | true     | `log4j2.properties.j2`          | string    |                                        |
-| es_jvm_heap_size                  | true     | `1g`                            | string    |                                        |
-| es_indices                        | true     | `[]`                            | list      | Indices to create.                     |
-| es_plugins                        | true     | `[]`                            | list      | Plugins to install.                    |
-| es_keystore_entries               | true     | `[]`                            | list      |                                        |
-| es_users                          | true     | `{}`                            | dict      |                                        |
-| es_roles                          | true     | `{}`                            | dict      |                                        |
-| es_templates_fileglob             | true     | `""`                            | string    | Path to index templates to install.    |
-| es_snapshot_repositories_fileglob | true     | `""`                            | string    |                                        |
+| Variable                          | Required | Default                         | Choices   | Comments                                       |
+|-----------------------------------|----------|---------------------------------|-----------|------------------------------------------------|
+| es_dependencies                   | true     | `[apt-transport-https, gnupg]`  | list      |                                                |
+| es_package_state                  | true     | `present`                       | string    | Use `latest` to upgrade ElasticSearch.         |
+| es_user                           | true     | `elasticsearch`                 | string    |                                                |
+| es_group                          | true     | `elasticsearch`                 | string    |                                                |
+| es_network_host                   | true     | `0.0.0.0`                       | string    |                                                |
+| es_http_port                      | true     | `9200`                          | int       |                                                |
+| es_path_data                      | true     | `/var/lib/elasticsearch`        | string    |                                                |
+| es_path_logs                      | true     | `/var/log/elasticsearch`        | string    |                                                |
+| es_config                         | true     | `{}`                            | dict      |                                                |
+| es_api_basic_auth_username        | true     | `elastic`                       | string    |                                                |
+| es_api_basic_auth_password        | true     | `changeme`                      | string    |                                                |
+| es_log_level                      | true     | `info`                          | string    |                                                |
+| es_log4j2_template                | true     | `log4j2.properties.j2`          | string    |                                                |
+| es_jvm_heap_size                  | true     | `1g`                            | string    |                                                |
+| es_indices                        | true     | `[]`                            | list      | Indices to create.                             |
+| es_plugins                        | true     | `[]`                            | list      | Plugins to install.                            |
+| es_keystore_entries               | true     | `[]`                            | list      |                                                |
+| es_users                          | true     | `{}`                            | dict      |                                                |
+| es_roles                          | true     | `{}`                            | dict      |                                                |
+| es_component_templates_fileglob   | true     | `""`                            | string    | Path to component index templates to install.  |
+| es_index_templates_fileglob       | true     | `""`                            | string    | Path to composable index templates to install. |
+| es_snapshot_repositories_fileglob | true     | `""`                            | string    |                                                |
 
 Dependencies
 ------------
