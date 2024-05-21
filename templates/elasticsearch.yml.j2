@@ -87,9 +87,6 @@ http.port: {{ es_http_port }}
 #
 #action.destructive_requires_name: false
 
-# Enable x-pack security
-xpack.security.enabled: true
-
 {% if es_config %}
 {{ es_config | to_nice_yaml(indent=2) }}
 {% endif %}
