@@ -29,6 +29,7 @@ jobs:
 
       - name: Display versions
         run: |
+          docker --version
           python -c "import sys; print(sys.version)"
           pip --version
           ansible --version
