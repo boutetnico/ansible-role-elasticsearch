@@ -79,7 +79,7 @@ def test_indices_exist(host, user, password, indice):
 @pytest.mark.parametrize(
     "plugin",
     [
-        ("repository-s3"),
+        ("discovery-ec2"),
     ],
 )
 def test_plugins_exist(host, plugin):

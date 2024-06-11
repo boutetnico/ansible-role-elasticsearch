@@ -16,7 +16,7 @@
         - test-molecule
 
       es_plugins:
-        - name: repository-s3
+        - name: discovery-ec2
 
       es_keystore_entries:
         - key: s3.client.default.access_key
