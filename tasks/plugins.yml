@@ -19,7 +19,6 @@
 
 - name: Ensure plugins are installed
   community.general.elasticsearch_plugin:
-    force: true
     name: "{{ item.name }}"
     version: "{{ item.version | d(omit) }}"
   loop: "{{ es_plugins }}"
