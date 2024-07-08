@@ -35,7 +35,6 @@ Role Variables
 | es_config                         | true     | `{}`                            | dict      |                                                |
 | es_api_basic_auth_username        | true     | `elastic`                       | string    |                                                |
 | es_api_basic_auth_password        | true     | `changeme`                      | string    |                                                |
-| es_log_level                      | true     | `info`                          | string    |                                                |
 | es_log4j2_template                | true     | `log4j2.properties.j2`          | string    |                                                |
 | es_jvm_heap_size                  | true     | `1g`                            | string    |                                                |
 | es_indices                        | true     | `[]`                            | list      | Indices to create.                             |
