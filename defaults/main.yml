@@ -2,7 +2,7 @@
 es_dependencies:
   - apt-transport-https
   - gnupg
-  - python3-apt
+  - python3-debian
 
 es_package_state: present
 
