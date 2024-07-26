@@ -2,6 +2,7 @@
 es_dependencies:
   - apt-transport-https
   - gnupg
+  - python3-apt
 
 es_package_state: present
 

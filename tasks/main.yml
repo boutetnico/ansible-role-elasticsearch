@@ -5,15 +5,13 @@
     state: present
     update_cache: true
 
-- name: Add Elastic key
-  ansible.builtin.apt_key:
-    state: present
-    url: "{{ es_signing_key }}"
-
-- name: Manage ElasticSearch APT repository
-  ansible.builtin.apt_repository:
-    repo: "{{ es_repository }}"
-    state: present
+- name: Configure Netdata APT repository
+  ansible.builtin.deb822_repository:
+    components: main
+    name: netdata
+    signed_by: "{{ es_signing_key }}"
+    suites: stable
+    uris: "{{ es_apt_uris }}"
 
 - name: Install ElasticSearch
   ansible.builtin.apt:
