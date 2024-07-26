@@ -5,20 +5,19 @@
     state: present
     update_cache: true
 
-- name: Add Elastic key
-  ansible.builtin.apt_key:
-    state: present
-    url: "{{ es_signing_key }}"
-
-- name: Manage ElasticSearch APT repository
-  ansible.builtin.apt_repository:
-    repo: "{{ es_repository }}"
-    state: present
+- name: Configure Elastic APT repository
+  ansible.builtin.deb822_repository:
+    components: main
+    name: elastic
+    signed_by: "{{ es_apt_signed_by }}"
+    suites: stable
+    uris: "{{ es_apt_uris }}"
 
 - name: Install ElasticSearch
   ansible.builtin.apt:
     name: "{{ es_package_name }}"
     state: "{{ es_package_state }}"
+    update_cache: true
   register: _es_apt_package
   notify: Restart ElasticSearch
 

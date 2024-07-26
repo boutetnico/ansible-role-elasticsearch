@@ -1,6 +1,6 @@
 ---
-es_signing_key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+es_apt_signed_by: https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
-es_repository: "deb https://artifacts.elastic.co/packages/8.x/apt stable main"
+es_apt_uris: https://artifacts.elastic.co/packages/8.x/apt
 
 es_package_name: elasticsearch
