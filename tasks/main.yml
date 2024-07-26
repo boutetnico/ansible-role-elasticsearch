@@ -5,11 +5,11 @@
     state: present
     update_cache: true
 
-- name: Configure Netdata APT repository
+- name: Configure Elastic APT repository
   ansible.builtin.deb822_repository:
     components: main
-    name: netdata
-    signed_by: "{{ es_signing_key }}"
+    name: elastic
+    signed_by: "{{ es_apt_signed_by }}"
     suites: stable
     uris: "{{ es_apt_uris }}"
 
