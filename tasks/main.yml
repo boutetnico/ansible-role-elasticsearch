@@ -17,6 +17,7 @@
   ansible.builtin.apt:
     name: "{{ es_package_name }}"
     state: "{{ es_package_state }}"
+    update_cache: true
   register: _es_apt_package
   notify: Restart ElasticSearch
 

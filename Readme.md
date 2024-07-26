@@ -9,7 +9,7 @@ This role installs and configures [ElasticSearch](https://www.elastic.co/guide/e
 Requirements
 ------------
 
-Ansible 2.10 or newer.
+Ansible 2.15 or newer.
 
 Supported Platforms
 -------------------
@@ -24,7 +24,7 @@ Role Variables
 
 | Variable                          | Required | Default                         | Choices   | Comments                                       |
 |-----------------------------------|----------|---------------------------------|-----------|------------------------------------------------|
-| es_dependencies                   | true     | `[apt-transport-https, gnupg]`  | list      |                                                |
+| es_dependencies                   | true     |                                 | list      | See `defaults/main.yml`.                       |
 | es_package_state                  | true     | `present`                       | string    | Use `latest` to upgrade ElasticSearch.         |
 | es_user                           | true     | `elasticsearch`                 | string    |                                                |
 | es_group                          | true     | `elasticsearch`                 | string    |                                                |
