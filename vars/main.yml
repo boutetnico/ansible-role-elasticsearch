@@ -1,6 +1,6 @@
 ---
 es_apt_signed_by: https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
-es_apt_uris: https://artifacts.elastic.co/packages/8.x/apt
+es_apt_uris: https://artifacts.elastic.co/packages/9.x/apt
 
 es_package_name: elasticsearch
