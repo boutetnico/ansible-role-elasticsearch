@@ -24,6 +24,7 @@
   changed_when: false
   when: es_users[item].password is defined
   loop: "{{ _es_users_to_add | d([]) }}"
+  no_log: true
 
 # Set passwords for all users declared - Required as the useradd will not change existing user passwords
 - name: Set User Passwords
@@ -32,6 +33,7 @@
   loop: "{{ es_users.keys() | list }}"
   when: es_users[item].password is defined
   changed_when: false
+  no_log: true
 
 - name: Add users with password hashs
   ansible.builtin.lineinfile:
@@ -41,6 +43,7 @@
     state: present
   loop: "{{ es_users.keys() | list }}"
   when: es_users[item].password_hash is defined
+  no_log: true
 
 - name: Copy roles.yml
   ansible.builtin.template:
