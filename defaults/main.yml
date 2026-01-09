@@ -39,3 +39,9 @@ es_component_templates_fileglob: ""
 es_index_templates_fileglob: ""
 
 es_snapshot_repositories_fileglob: ""
+
+# systemd
+es_systemd_override:
+  Service:
+    Restart: on-failure
+    RestartSec: 5s

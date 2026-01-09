@@ -45,6 +45,7 @@ Role Variables
 | es_component_templates_fileglob   | true     | `""`                            | string    | Path to component index templates to install.  |
 | es_index_templates_fileglob       | true     | `""`                            | string    | Path to composable index templates to install. |
 | es_snapshot_repositories_fileglob | true     | `""`                            | string    |                                                |
+| es_systemd_override               | true     |                                 | dict      | See `defaults/main.yml`.                       |
 
 Dependencies
 ------------
