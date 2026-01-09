@@ -1,0 +1,8 @@
+# Ansible managed
+{% for section, options in es_systemd_override.items() %}
+[{{ section }}]
+{% for key, value in options.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+
+{% endfor %}

@@ -21,6 +21,21 @@
   register: _es_apt_package
   notify: Restart ElasticSearch
 
+- name: Ensure systemd override directory exists
+  ansible.builtin.file:
+    mode: "0755"
+    path: /etc/systemd/system/elasticsearch.service.d
+    state: directory
+
+- name: Configure systemd override
+  ansible.builtin.template:
+    dest: /etc/systemd/system/elasticsearch.service.d/override.conf
+    mode: "0644"
+    src: systemd-override.conf.j2
+  notify:
+    - Reload systemd
+    - Restart ElasticSearch
+
 - name: Ensure ElasticSearch data directory exists
   ansible.builtin.file:
     group: "{{ es_group }}"

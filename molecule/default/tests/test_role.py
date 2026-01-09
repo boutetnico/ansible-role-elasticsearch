@@ -30,6 +30,14 @@ def test_elasticsearch_config_file(host, username, groupname, path):
     assert config.group == groupname
 
 
+def test_systemd_override_file(host):
+    override = host.file("/etc/systemd/system/elasticsearch.service.d/override.conf")
+    assert override.exists
+    assert override.is_file
+    assert override.contains("Restart=on-failure")
+    assert override.contains("RestartSec=5s")
+
+
 @pytest.mark.parametrize(
     "name",
     [
