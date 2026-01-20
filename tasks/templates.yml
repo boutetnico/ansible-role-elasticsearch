@@ -10,6 +10,7 @@
     url: "http://localhost:{{ es_http_port }}/_component_template/{{ item | basename | replace('.j2', '') | replace('.json', '') }}"
     user: "{{ es_api_basic_auth_username | d(omit) }}"
   loop: "{{ lookup('fileglob', es_component_templates_fileglob, wantlist=True) }}"
+  no_log: true
 
 - name: Ensure composable index templates are installed
   ansible.builtin.uri:  # noqa no-handler
@@ -22,3 +23,4 @@
     url: "http://localhost:{{ es_http_port }}/_index_template/{{ item | basename | replace('.j2', '') | replace('.json', '') }}"
     user: "{{ es_api_basic_auth_username | d(omit) }}"
   loop: "{{ lookup('fileglob', es_index_templates_fileglob, wantlist=True) }}"
+  no_log: true
