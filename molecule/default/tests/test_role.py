@@ -6,34 +6,55 @@ import json
 @pytest.mark.parametrize(
     "name",
     [
-        ("elasticsearch"),
+        ("apt-transport-https"),
+        ("gnupg"),
     ],
 )
-def test_packages_are_installed(host, name):
+def test_dependencies_are_installed(host, name):
     package = host.package(name)
     assert package.is_installed
 
 
 @pytest.mark.parametrize(
-    "username,groupname,path",
+    "name",
     [
-        ("root", "root", "/etc/elasticsearch/elasticsearch.yml"),
-        ("root", "root", "/etc/elasticsearch/log4j2.properties"),
-        ("root", "root", "/etc/elasticsearch/jvm.options"),
+        ("elasticsearch"),
     ],
 )
-def test_elasticsearch_config_file(host, username, groupname, path):
+def test_elasticsearch_package_is_installed(host, name):
+    package = host.package(name)
+    assert package.is_installed
+
+
+@pytest.mark.parametrize(
+    "path,user,group,mode",
+    [
+        ("/etc/elasticsearch/elasticsearch.yml", "root", "root", 0o644),
+        ("/etc/elasticsearch/log4j2.properties", "root", "root", 0o644),
+        ("/etc/elasticsearch/jvm.options", "root", "root", 0o644),
+    ],
+)
+def test_elasticsearch_config_files_exist(host, path, user, group, mode):
     config = host.file(path)
     assert config.exists
     assert config.is_file
-    assert config.user == username
-    assert config.group == groupname
+    assert config.user == user
+    assert config.group == group
+    assert config.mode == mode
+
+
+def test_systemd_override_directory_exists(host):
+    directory = host.file("/etc/systemd/system/elasticsearch.service.d")
+    assert directory.exists
+    assert directory.is_directory
+    assert directory.mode == 0o755
 
 
 def test_systemd_override_file(host):
     override = host.file("/etc/systemd/system/elasticsearch.service.d/override.conf")
     assert override.exists
     assert override.is_file
+    assert override.mode == 0o644
     assert override.contains("Restart=on-failure")
     assert override.contains("RestartSec=5s")
 
