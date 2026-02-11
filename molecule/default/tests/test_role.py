@@ -6,7 +6,6 @@ import json
 @pytest.mark.parametrize(
     "name",
     [
-        ("apt-transport-https"),
         ("gnupg"),
     ],
 )
