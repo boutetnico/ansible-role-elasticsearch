@@ -118,18 +118,18 @@ def test_plugins_exist(host, plugin):
 
 
 @pytest.mark.parametrize(
-    "entry",
+    "entry,value",
     [
-        ("s3.client.default.access_key"),
-        ("s3.client.default.secret_key"),
+        ("s3.client.default.access_key", "FAKE_ACCESS_KEY"),
+        ("s3.client.default.secret_key", "FAKE_SECRET_KEY"),
     ],
 )
-def test_keystore_entries(host, entry):
-    command = "/usr/share/elasticsearch/bin/elasticsearch-keystore list"
+def test_keystore_entries(host, entry, value):
+    command = f"/usr/share/elasticsearch/bin/elasticsearch-keystore show {entry}"
     output = host.run(command)
     if output.exit_status != 0:
-        pytest.fail("Failed to list ES keystore entries")
-    assert entry in output.stdout
+        pytest.fail(f"Failed to read ES keystore entry {entry}")
+    assert output.stdout.strip() == value
 
 
 @pytest.mark.parametrize(
